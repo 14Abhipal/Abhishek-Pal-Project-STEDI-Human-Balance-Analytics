@@ -27,14 +27,14 @@ DEFAULT_DATA_QUALITY_RULESET = """
 """
 
 # Script generated for node Customer Landing
-CustomerLanding_node1758776236959 = glueContext.create_dynamic_frame.from_catalog(database="stedi2", table_name="customer_landing", transformation_ctx="CustomerLanding_node1758776236959")
+CustomerLanding_node1758785061474 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://abhi-bucket-2001/customer/landing/"], "recurse": True}, transformation_ctx="CustomerLanding_node1758785061474")
 
 # Script generated for node SQL Query
-SqlQuery3205 = '''
+SqlQuery0 = '''
 select * from myDataSource where sharewithresearchasofdate is not null;
 
 '''
-SQLQuery_node1758776260483 = sparkSqlQuery(glueContext, query = SqlQuery3205, mapping = {"myDataSource":CustomerLanding_node1758776236959}, transformation_ctx = "SQLQuery_node1758776260483")
+SQLQuery_node1758776260483 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"myDataSource":CustomerLanding_node1758785061474}, transformation_ctx = "SQLQuery_node1758776260483")
 
 # Script generated for node Customer Trusted
 EvaluateDataQuality().process_rows(frame=SQLQuery_node1758776260483, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1758776230136", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})
