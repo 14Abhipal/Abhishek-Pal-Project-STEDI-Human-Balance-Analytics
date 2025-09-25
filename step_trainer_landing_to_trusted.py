@@ -26,17 +26,17 @@ DEFAULT_DATA_QUALITY_RULESET = """
     ]
 """
 
-# Script generated for node Customer Curated
-CustomerCurated_node1758778746098 = glueContext.create_dynamic_frame.from_catalog(database="stedi2", table_name="customer_curated", transformation_ctx="CustomerCurated_node1758778746098")
+# Script generated for node Step Trainer Landin
+StepTrainerLandin_node1758785415313 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://abhi-bucket-2001/step_trainer/landing/"], "recurse": True}, transformation_ctx="StepTrainerLandin_node1758785415313")
 
-# Script generated for node Step_Trainer Landing
-Step_TrainerLanding_node1758778745866 = glueContext.create_dynamic_frame.from_catalog(database="stedi2", table_name="step_trainer_landing", transformation_ctx="Step_TrainerLanding_node1758778745866")
+# Script generated for node Customer Curated
+CustomerCurated_node1758785415659 = glueContext.create_dynamic_frame.from_options(format_options={"multiLine": "false"}, connection_type="s3", format="json", connection_options={"paths": ["s3://abhi-bucket-2001/customer/curated/"], "recurse": True}, transformation_ctx="CustomerCurated_node1758785415659")
 
 # Script generated for node SQL Query
-SqlQuery3973 = '''
+SqlQuery0 = '''
 select stl.* from stl inner join cc on stl.serialnumber=cc.serialnumber;
 '''
-SQLQuery_node1758778786284 = sparkSqlQuery(glueContext, query = SqlQuery3973, mapping = {"stl":Step_TrainerLanding_node1758778745866, "cc":CustomerCurated_node1758778746098}, transformation_ctx = "SQLQuery_node1758778786284")
+SQLQuery_node1758778786284 = sparkSqlQuery(glueContext, query = SqlQuery0, mapping = {"stl":StepTrainerLandin_node1758785415313, "cc":CustomerCurated_node1758785415659}, transformation_ctx = "SQLQuery_node1758778786284")
 
 # Script generated for node Step Trainer Trusted
 EvaluateDataQuality().process_rows(frame=SQLQuery_node1758778786284, ruleset=DEFAULT_DATA_QUALITY_RULESET, publishing_options={"dataQualityEvaluationContext": "EvaluateDataQuality_node1758778719647", "enableDataQualityResultsPublishing": True}, additional_options={"dataQualityResultsPublishing.strategy": "BEST_EFFORT", "observations.scope": "ALL"})
